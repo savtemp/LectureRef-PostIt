@@ -8,7 +8,7 @@ class PicturesService {
     return picture
   }
 
-  async getPicturesInAlbum(albumId) {
+  async getPicturesByAlbumId(albumId) {
     // NOTE find method takes in an object, just based on how the method works
     // NOTE find pictures where theres albumIds and only give back the pictures that have that albumId
     // pictures.filter(p => p.albumId == albumId)
