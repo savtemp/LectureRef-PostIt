@@ -7,6 +7,8 @@ export class Album extends DatabaseItem {
     this.title = data.title
     this.category = data.category
     this.creatorId = data.creatorId
+    this.archived = data.archived
+    this.coverImg = data.coverImg
     this.creator = new Profile(data.creator)
   }
 }
