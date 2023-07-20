@@ -1,4 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
+import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 
 class AlbumsService {
@@ -15,12 +16,18 @@ class AlbumsService {
 
   async getAlbumById(albumId) {
     const album = (await dbContext.Albums.findById(albumId)).populate('creator', 'name picture')
+    if (!album) {
+      throw new BadRequest(`No album found with albumId: ${albumId}`)
+    }
     return album
   }
 
-  async archiveAlbum(albumId) {
+  async archiveAlbum(albumId, userId) {
 
     const albumToArchive = await this.getAlbumById(albumId)
+    if (albumToArchive.creatorId != userId) {
+      throw new Forbidden(`You cannot archive this album if it does not belong to you.`)
+    }
     albumToArchive.archived = true
     await albumToArchive.save()
     return albumToArchive
