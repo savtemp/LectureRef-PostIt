@@ -1,0 +1,13 @@
+
+  {
+    "name": "refpostit",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "npm run setup:server",
+      "setup:app": "npm run setup:server && npm run setup:client",
+      "setup:client": "cd RefPostIt.client && npm i",
+      "setup:server": "cd RefPostIt && npm i",
+      "start": "node RefPostIt/index.js"
+    }
+  }
+  
