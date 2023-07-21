@@ -1,4 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
+import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 
 class CollaboratorsService {
@@ -18,19 +19,20 @@ class CollaboratorsService {
   }
 
   // TODO utility function in order to null check
-  // async getCollabById(){
-
-  // }
+  // async getCollabById(){}
 
   async deleteMyCollaboration(collabId, userId) {
     const collabToBeRemoved = await dbContext.Collaborators.findById(collabId)
-    // TODO use utility to null check 
-    // if(collabToBeRemoved.collabId != userId){
-
-    // }
+    if (!collabToBeRemoved) {
+      throw new BadRequest(`The collaboration at this collaborationId: ${collabId}, does not exist.`)
+    }
+    if (collabToBeRemoved.accountId != userId) {
+      throw new Forbidden('You cannot remove a collaboration that is not yours.')
+    }
     // @ts-ignore
     await collabToBeRemoved.remove()
     return collabToBeRemoved
+    // return `Your collaboration has been removed.`
   }
 }
 
