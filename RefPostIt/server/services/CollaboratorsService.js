@@ -1,9 +1,18 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { albumsService } from "./AlbumsService.js"
 
 
 class CollaboratorsService {
   async createCollab(collabData) {
+
+    // NOTE get the album we want by calling to the albumsService function to getById
+    const album = await albumsService.getAlbumById(collabData.albumId)
+    // NOTE check to see if the album has been archived
+    if (album.archived == true) {
+      throw new Forbidden(`${album.title} does not exist. You cannot become a collaborator on ${album.title}.`)
+    }
+    // NOTE if the album has not been archived proceed with creating the collab
     const newCollab = await dbContext.Collaborators.create(collabData)
     return newCollab
   }

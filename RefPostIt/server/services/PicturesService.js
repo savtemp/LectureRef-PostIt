@@ -1,11 +1,19 @@
 import { dbContext } from "../db/DbContext.js"
+import { Forbidden } from "../utils/Errors.js"
+import { albumsService } from "./AlbumsService.js"
 
 
 class PicturesService {
   async createPicture(pictureData) {
+
+    // NOTE get the album we want by calling to the album service
+    const album = await albumsService.getAlbumById(pictureData.albumId)
+    // NOTE check to see if the album is archived
+    if (album.archived == true) {
+      throw new Forbidden(`${album.title} does not exist. You cannot add any pictures to ${album.title}.`)
+    }
+    // NOTE if the album is not archived, proceed with creating a picture
     const picture = await dbContext.Pictures.create(pictureData)
-    // TODO import alums service
-    // TODO check to see if the album is archived before posting a picture 
     await picture.populate('creator', 'name picture')
     return picture
   }
