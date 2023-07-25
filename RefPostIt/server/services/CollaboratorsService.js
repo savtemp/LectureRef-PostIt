@@ -24,6 +24,15 @@ class CollaboratorsService {
 
   async getMyAlbumCollaborations(accountId) {
     const albumCollabs = await dbContext.Collaborators.find({ accountId }).populate('album')
+    // NOTE nested populate :
+    // NOTE call to the album virtual
+    // NOTE target the specific album, populate the virtuals on to the original 'album' virtual
+    // .populate({
+    //   path: "album",
+    //   populate: {
+    //     path: "creator memberCount"
+    //   }
+    // })
     return albumCollabs
   }
 

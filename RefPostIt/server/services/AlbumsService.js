@@ -28,6 +28,11 @@ class AlbumsService {
     if (albumToArchive.creatorId != userId) {
       throw new Forbidden(`You cannot archive this album if it does not belong to you.`)
     }
+
+    if (albumToArchive.archived == true) {
+      throw new Forbidden(`${albumToArchive.title} has already been archived.`)
+    }
+
     albumToArchive.archived = true
     await albumToArchive.save()
     return albumToArchive
