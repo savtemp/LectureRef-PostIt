@@ -14,6 +14,19 @@ class CollaboratorsService {
     }
     // NOTE if the album has not been archived proceed with creating the collab
     const newCollab = await dbContext.Collaborators.create(collabData)
+
+    // NOTE nested populate :
+    // NOTE call to the album virtual
+    // NOTE target the specific album, populate the virtuals on to the original 'album' virtual
+    // await newCollab.populate({
+    //   path: "album",
+    //   populate: {
+    //     path: "creator memberCount"
+    //   }
+    // })
+
+    // await newCollab.populate('profile')
+
     return newCollab
   }
 
@@ -24,6 +37,7 @@ class CollaboratorsService {
 
   async getMyAlbumCollaborations(accountId) {
     const albumCollabs = await dbContext.Collaborators.find({ accountId }).populate('album')
+
     // NOTE nested populate :
     // NOTE call to the album virtual
     // NOTE target the specific album, populate the virtuals on to the original 'album' virtual
@@ -38,6 +52,7 @@ class CollaboratorsService {
 
   async deleteMyCollaboration(collabId, userId) {
     const collabToBeRemoved = await dbContext.Collaborators.findById(collabId)
+
     if (!collabToBeRemoved) {
       throw new BadRequest(`The collaboration at this collaborationId: ${collabId}, does not exist.`)
     }
