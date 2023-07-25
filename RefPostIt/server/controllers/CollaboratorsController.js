@@ -18,6 +18,7 @@ export class CollaboratorsController extends BaseController {
   async createCollab(req, res, next) {
     try {
       const collabData = req.body
+      // NOTE accountId is coming from the model, we used accountId instead of using creatorId
       collabData.accountId = req.userInfo.id
       const collab = await collaboratorsService.createCollab(collabData)
       return res.send(collab)

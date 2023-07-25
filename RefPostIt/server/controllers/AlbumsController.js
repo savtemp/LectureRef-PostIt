@@ -14,6 +14,7 @@ export class AlbumsController extends BaseController {
       .get('/:albumId', this.getAlbumById)
       .get('/:albumId/pictures', this.getPicturesByAlbumId)
       .get('/:albumId/collaborators', this.getCollaboratorsByAlbumId)
+
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createAlbum)
       .delete('/:albumId', this.archiveAlbum)

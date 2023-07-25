@@ -18,9 +18,6 @@ class CollaboratorsService {
     return albumCollabs
   }
 
-  // TODO utility function in order to null check
-  // async getCollabById(){}
-
   async deleteMyCollaboration(collabId, userId) {
     const collabToBeRemoved = await dbContext.Collaborators.findById(collabId)
     if (!collabToBeRemoved) {

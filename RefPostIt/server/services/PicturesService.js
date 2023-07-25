@@ -4,6 +4,8 @@ import { dbContext } from "../db/DbContext.js"
 class PicturesService {
   async createPicture(pictureData) {
     const picture = await dbContext.Pictures.create(pictureData)
+    // TODO import alums service
+    // TODO check to see if the album is archived before posting a picture 
     await picture.populate('creator', 'name picture')
     return picture
   }
